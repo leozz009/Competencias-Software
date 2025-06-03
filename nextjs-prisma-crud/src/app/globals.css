@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+.galaxy-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse at bottom, #023b47 0%, #000 100%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.galaxy-background::before,
+.galaxy-background::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 0;
+  background-repeat: repeat;
+  opacity: 0.8;
+  animation: moveStars 160s linear infinite;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, white 90%, transparent 100%),
+    radial-gradient(1px 1px at 20% 30%, white 90%, transparent 100%),
+    radial-gradient(2px 2px at 30% 10%, white 90%, transparent 100%),
+    radial-gradient(1px 1px at 40% 80%, white 90%, transparent 100%),
+    radial-gradient(2px 2px at 50% 60%, white 90%, transparent 100%),
+    radial-gradient(1px 1px at 60% 70%, white 90%, transparent 100%),
+    radial-gradient(3px 3px at 70% 90%, white 90%, transparent 100%),
+    radial-gradient(2px 2px at 80% 40%, white 90%, transparent 100%),
+    radial-gradient(1px 1px at 90% 10%, white 90%, transparent 100%),
+    radial-gradient(3px 3px at 25% 75%, white 90%, transparent 100%),
+    radial-gradient(1px 1px at 15% 85%, white 90%, transparent 100%),
+    radial-gradient(2px 2px at 95% 55%, white 90%, transparent 100%);
+}
+
+.galaxy-background::after {
+  opacity: 0.5;
+  animation: moveStarsReverse 200s linear infinite;
+  background-image:
+    radial-gradient(1px 1px at 5% 15%, white 90%, transparent 100%),
+    radial-gradient(1px 1px at 25% 35%, white 90%, transparent 100%),
+    radial-gradient(2px 2px at 45% 65%, white 90%, transparent 100%),
+    radial-gradient(3px 3px at 65% 25%, white 90%, transparent 100%),
+    radial-gradient(2px 2px at 85% 75%, white 90%, transparent 100%),
+    radial-gradient(1px 1px at 75% 55%, white 90%, transparent 100%),
+    radial-gradient(3px 3px at 35% 95%, white 90%, transparent 100%);
+}
+
+@keyframes moveStars {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-20%, -20%);
+  }
+}
+
+@keyframes moveStarsReverse {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(20%, 20%);
+  }
+}
