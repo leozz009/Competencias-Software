@@ -62,14 +62,14 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     setNotes(notes.filter((note) => note.id !== id));
   }
 
-  async function updateNote(id: number, note:UpdateNote) {
+  async function updateNote(id: number, note: UpdateNote) {
     const res = await fetch("http://localhost:3000/api/notes/" + id, {
       method: "PUT",
       body: JSON.stringify(note),
       headers: {
         "Content-type": "application/json",
-      }
-    })
+      },
+    });
 
     const data = await res.json();
     setNotes(notes.map((n) => (n.id === id ? { ...n, ...data } : n)));

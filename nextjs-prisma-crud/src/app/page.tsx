@@ -30,14 +30,14 @@ function HomePage() {
           {notes.length === 0 ? (
             <div className="text-center py-12">
               <div className="backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl p-8">
-                <h3 className="text-white/70 text-xl mb-2">El espacio está vacío...</h3>
+                <h3 className="text-white/70 text-xl mb-2">
+                  El espacio está vacío...
+                </h3>
                 <p className="text-white/50">No tienes ninguna nota</p>
               </div>
             </div>
           ) : (
-            notes.map((note) => (
-              <NoteCard key={note.id} note={note}/>
-            ))
+            notes.map((note) => <NoteCard key={note.id} note={note} />)
           )}
         </div>
       </div>

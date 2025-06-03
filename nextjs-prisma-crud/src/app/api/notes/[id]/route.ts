@@ -1,115 +1,112 @@
 import { NextResponse } from "next/server";
-import {Prisma} from "@prisma/client"
-import { prisma } from "@/libs/prisma"
+import { Prisma } from "@prisma/client";
+import { prisma } from "@/libs/prisma";
 
 interface Params {
-    params: {
-        id: string
-    }
+  params: {
+    id: string;
+  };
 }
 
-export async function GET(request: Request, {params}: Params) {
+export async function GET(request: Request, { params }: Params) {
+  try {
+    const note = await prisma.note.findFirst({
+      where: {
+        id: Number(params.id),
+      },
+    });
 
-    try {
-        const note = await prisma.note.findFirst({
-            where: {
-                id: Number(params.id)
-            }
-        })
-
-        if (!note) return NextResponse.json(
-            {
-                message: "Note not found :(",
-            }, 
-            {
-                status: 404,
-            },
-        )
-        return NextResponse.json( note )
-
-    } catch (error){
-        if(error instanceof Error) {
-            return NextResponse.json(
-                {
-                    message: error.message,
-                }, 
-                {
-                    status: 500,
-                },
-            ); 
+    if (!note)
+      return NextResponse.json(
+        {
+          message: "Note not found :(",
+        },
+        {
+          status: 404,
         }
+      );
+    return NextResponse.json(note);
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
+        }
+      );
     }
+  }
 }
 
 export async function DELETE(request: Request, { params }: Params) {
+  try {
+    const deletedNote = await prisma.note.delete({
+      where: {
+        id: Number(params.id),
+      },
+    });
 
-    try {
-        const deletedNote = await prisma.note.delete({
-            where: {
-                id: Number(params.id)
-            }
-        })
-
-        if (!deletedNote) return NextResponse.json(
-            {
-                message: "Note not found :(",
-            }, 
-            {
-                status: 404,
-            },
-        )
-
-        return NextResponse.json(deletedNote)
-
-    } catch(error) {
-        if(error instanceof Error) {
-            if (error.name === "P2025") {
-                return NextResponse.json(
-                {
-                    message: "Note not found",
-                }, 
-                {
-                    status: 404,
-                },
-            ); 
-            }
-            return NextResponse.json(
-                {
-                    message: error.message,
-                }, 
-                {
-                    status: 500,
-                },
-            ); 
+    if (!deletedNote)
+      return NextResponse.json(
+        {
+          message: "Note not found :(",
+        },
+        {
+          status: 404,
         }
+      );
+
+    return NextResponse.json(deletedNote);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.name === "P2025") {
+        return NextResponse.json(
+          {
+            message: "Note not found",
+          },
+          {
+            status: 404,
+          }
+        );
+      }
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
+        }
+      );
     }
+  }
 }
 
-export async function PUT(request: Request, {params}: Params) {
-    const { title, content } = await request.json(); 
+export async function PUT(request: Request, { params }: Params) {
+  const { title, content } = await request.json();
 
-    try {
-        const updatedNote = await prisma.note.update({
-            where: {
-                id: Number(params.id),
-            },
-            data: {
-                title,
-                content
-            },
-        });
-        return NextResponse.json(updatedNote)
-
-    } catch (error) {
-        if (error instanceof Error) {
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status: 500,
-                },
-            );
+  try {
+    const updatedNote = await prisma.note.update({
+      where: {
+        id: Number(params.id),
+      },
+      data: {
+        title,
+        content,
+      },
+    });
+    return NextResponse.json(updatedNote);
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
         }
+      );
     }
+  }
 }
